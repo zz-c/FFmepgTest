@@ -21,6 +21,6 @@ postproc.lib
 swresample.lib
 swscale.lib
 
-将C:\demo\ffmpeg-4.4.1-full_build-shared\bin 下的dll拷贝到项目目录下
+将C:\demo\ffmpeg-4.4.1-full_build-shared\bin 下的dll拷贝到项目目录下(bin)
 
 如果debug是x86的话，改成x64，否则会调试不过。
