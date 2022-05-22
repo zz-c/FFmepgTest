@@ -1,17 +1,17 @@
-ÏÂÔØFFmpeg±àÒëºÃµÄWindows°æ±¾
+ä¸‹è½½FFmpegç¼–è¯‘å¥½çš„Windowsç‰ˆæœ¬
 ffmpeg-4.4.1-full_build-shared.7z
 
-1.ÏîÄ¿Ãû³Æ->ÊôĞÔ->ÅäÖÃÊôĞÔ->c/c++->¸½¼Ó°üº¬µÄÄ¿Â¼£º
-¼ÓÈëÒÔÏÂ£ºÔö¼Ó include
-C:\demo\ffmpeg-4.4.1-full_build-shared\include
+1.é¡¹ç›®åç§°->å±æ€§->é…ç½®å±æ€§->c/c++->é™„åŠ åŒ…å«çš„ç›®å½•ï¼š
+åŠ å…¥ä»¥ä¸‹ï¼šå¢åŠ  include
+..\..\ffmpeg-4.4.1-full_build-shared\include
  
 
-2.ÏîÄ¿Ãû³Æ->ÊôĞÔ->ÅäÖÃÊôĞÔ->Á´½ÓÆ÷->³£¹æ->¸½¼Ó¿âÄ¿Â¼:
-¼ÓÈë
-C:\demo\ffmpeg-4.4.1-full_build-shared\lib
+2.é¡¹ç›®åç§°->å±æ€§->é…ç½®å±æ€§->é“¾æ¥å™¨->å¸¸è§„->é™„åŠ åº“ç›®å½•:
+åŠ å…¥
+..\..\ffmpeg-4.4.1-full_build-shared\lib
 
-3.ÏîÄ¿Ãû³Æ->ÊôĞÔ->ÅäÖÃÊôĞÔ->Á´½ÓÆ÷->ÊäÈë->¸½¼ÓÒÀÀµÏî:
-¼ÓÈë
+3.é¡¹ç›®åç§°->å±æ€§->é…ç½®å±æ€§->é“¾æ¥å™¨->è¾“å…¥->é™„åŠ ä¾èµ–é¡¹:
+åŠ å…¥
 avcodec.lib
 avdevice.lib
 avfilter.lib
@@ -21,6 +21,6 @@ postproc.lib
 swresample.lib
 swscale.lib
 
-½«C:\demo\ffmpeg-4.4.1-full_build-shared\bin ÏÂµÄdll¿½±´µ½ÏîÄ¿Ä¿Â¼ÏÂ(bin)
+å°†..\..\ffmpeg-4.4.1-full_build-shared\bin ä¸‹çš„dllæ‹·è´åˆ°è§£å†³æ–¹æ¡ˆç›®å½•ä¸‹(..\bin)
 
-Èç¹ûdebugÊÇx86µÄ»°£¬¸Ä³Éx64£¬·ñÔò»áµ÷ÊÔ²»¹ı¡£
+å¦‚æœdebugæ˜¯x86çš„è¯ï¼Œæ”¹æˆx64ï¼Œå¦åˆ™ä¼šè°ƒè¯•ä¸è¿‡ã€‚
