@@ -16,9 +16,9 @@ extern "C" {
 将帧保存到文件
 
 */
-void saveFrame2Ppm(AVFrame* pFrame, int width, int height, int iFrame) {
+void saveFrame2Ppm(AVFrame *pFrame, int width, int height, int iFrame) {
 
-	FILE* pFile;		//文件指针
+	FILE *pFile;		//文件指针
 	char szFilename[32];//文件名（字符串）
 	int y;				//
 
@@ -33,7 +33,7 @@ void saveFrame2Ppm(AVFrame* pFrame, int width, int height, int iFrame) {
 	fprintf(pFile, "P6\n%d %d\n255\n", width, height);//在文档中加入，必须加入，不然PPM文件无法读取
 
 	for (y = 0; y < height; y++) {
-		fwrite(pFrame->data[0] + y * pFrame->linesize[0], 1, width * 3, pFile);
+		fwrite(pFrame->data[0] + y*pFrame->linesize[0], 1, width * 3, pFile);
 	}
 
 	fclose(pFile);
@@ -46,14 +46,14 @@ void saveFrame2Ppm(AVFrame* pFrame, int width, int height, int iFrame) {
 * @param height YUV42的高
 *
 */
-int saveFrame2JPEG(AVFrame* pFrame, int width, int height, int iIndex) {
+int saveFrame2JPEG(AVFrame *pFrame, int width, int height, int iIndex) {
 	// 输出文件路径
 
 	char out_file[1000] = { 0 };
 	sprintf(out_file, "rtspToJpg%04d.jpg", iIndex);
 	printf("out_file:%s", out_file);
 	// 分配AVFormatContext对象
-	AVFormatContext* pFormatCtx = avformat_alloc_context();
+	AVFormatContext *pFormatCtx = avformat_alloc_context();
 
 	// 设置输出文件格式
 	pFormatCtx->oformat = av_guess_format("mjpeg", NULL, NULL);
@@ -66,13 +66,13 @@ int saveFrame2JPEG(AVFrame* pFrame, int width, int height, int iIndex) {
 	// 构建一个新stream
 	//Using AVStream.codec to pass codec parameters to muxers is deprecated, use AVStream.codecpar instead |||AVCodecParametersstream->codecpar
 
-	AVStream* pAVStream = avformat_new_stream(pFormatCtx, 0);
+	AVStream *pAVStream = avformat_new_stream(pFormatCtx, 0);
 	if (pAVStream == NULL) {
 		return -1;
 	}
 
 	// 设置该stream的信息
-	AVCodecContext* pCodecCtx = pAVStream->codec;
+	AVCodecContext *pCodecCtx = pAVStream->codec;
 
 	pCodecCtx->codec_id = pFormatCtx->oformat->video_codec;
 	pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
@@ -87,7 +87,7 @@ int saveFrame2JPEG(AVFrame* pFrame, int width, int height, int iIndex) {
 	// End Output some information
 
 	// 查找解码器
-	AVCodec* pCodec = avcodec_find_encoder(pCodecCtx->codec_id);
+	AVCodec *pCodec = avcodec_find_encoder(pCodecCtx->codec_id);
 	if (!pCodec) {
 		printf("Codec not found.");
 		return -1;
@@ -271,7 +271,7 @@ int testRtspToPicture()
 					//将视频帧原来的格式pCodecCtx->pix_fmt转换成RGB
 					sws_scale(sws_ctx, (uint8_t const* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
 					saveFrame2Ppm(pFrameRGB, pCodecCtx->width, pCodecCtx->height, cnt);
-					//saveFrame2JPEG(pFrame, pCodecCtx->width, pCodecCtx->height, cnt);
+					saveFrame2JPEG(pFrame, pCodecCtx->width, pCodecCtx->height, cnt);
 					frameFinished = 0;
 				}
 				cnt++;
