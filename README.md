@@ -1,4 +1,4 @@
-下载FFmpeg编译好的Windows版本
+http://www.ffmpeg.org/ 下载FFmpeg编译好的Windows版本
 ffmpeg-4.4.1-full_build-shared.7z
 
 1.项目名称->属性->配置属性->c/c++->附加包含的目录：
