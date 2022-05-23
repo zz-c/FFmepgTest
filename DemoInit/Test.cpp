@@ -405,5 +405,44 @@ int Test::testCamera()
 		return -1;
 	}
 
+	// audio/video stream index
+	int video_stream_index = -1;
+	fprintf(stdout, "Number of elements in AVFormatContext.streams: %d\n", pFormatCtx->nb_streams);
+	for (int i = 0; i < pFormatCtx->nb_streams; ++i) {
+		const AVStream* stream = pFormatCtx->streams[i];
+		fprintf(stdout, "type of the encoded data: %d\n", stream->codecpar->codec_id);
+		if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+			video_stream_index = i;
+			fprintf(stdout, "dimensions of the video frame in pixels: width: %d, height: %d, pixel format: %d\n",
+				stream->codecpar->width, stream->codecpar->height, stream->codecpar->format);
+		}
+	}
+	//获取视频流中的编解码上下文
+	//AVCodecContext* pCodecCtx = pFormatCtx->streams[video_stream_index]->codec;过时
+	AVCodecContext* pCodecCtx = avcodec_alloc_context3(NULL);
+	if (pCodecCtx == NULL)
+	{
+		printf("Could not allocate AVCodecContext\n");
+		return -1;
+	}
+	avcodec_parameters_to_context(pCodecCtx, pFormatCtx->streams[video_stream_index]->codecpar);
+	//根据编解码上下文中的编码id查找对应的解码
+	AVCodec* pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+	if (pCodec == NULL)
+	{
+		printf("%s", "找不到解码器\n");
+		return -1;
+	}
+	//打开解码器
+	if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0)
+	{
+		printf("%s", "解码器无法打开\n");
+		return -1;
+	}
+	//输出视频信息
+	printf("视频的pix_fmt：%d\n", pCodecCtx->pix_fmt);
+	printf("视频的宽高：%d,%d\n", pCodecCtx->width, pCodecCtx->height);
+	printf("视频解码器的名称：%s\n", pCodec->name);
+
 
 }
