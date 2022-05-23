@@ -444,5 +444,34 @@ int Test::testCamera()
 	printf("视频的宽高：%d,%d\n", pCodecCtx->width, pCodecCtx->height);
 	printf("视频解码器的名称：%s\n", pCodec->name);
 
+	AVPacket* packet = av_packet_alloc();// (AVPacket*)av_malloc(sizeof(AVPacket));
+	AVFrame* pFrame = av_frame_alloc();
+	int frameFinished;
+	while (1) {
+		ret = av_read_frame(pFormatCtx, packet);
+		if (ret < 0) {
+			fprintf(stderr, "error or end of file: %d\n", ret);
+			continue;
+		}
+		if (packet->stream_index == video_stream_index) {
+			fprintf(stdout, "video stream, packet size: %d\n", packet->size);
 
+			//ret = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, packet);
+			ret = avcodec_send_packet(pCodecCtx, packet);
+			av_packet_unref(packet);
+
+
+			ret = avcodec_receive_frame(pCodecCtx, pFrame);
+			if (ret != 0) {
+				fprintf(stderr, "avcodec_receive_frame failed !\n");
+			}
+			else {
+				fprintf(stderr, "avcodec_receive_frame success !\n");
+				//saveFrame2JPEG(pFrame, pCodecCtx->width, pCodecCtx->height, 0);
+				break;
+			}
+			//break;
+		}
+	}
+	//avformat_free_context(pFormatCtx);
 }
