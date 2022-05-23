@@ -23,7 +23,7 @@ int main()
     std::cout << "Test FFmpeg" << std::endl;
     std::cout << avcodec_configuration() << std::endl;
     Test* test = new Test();
-    //test->test01();
-    test->testRtsp();
+    test->test01();
+    //test->testRtsp();
     getchar();
 }
