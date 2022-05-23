@@ -12,6 +12,7 @@ public:
 public:
     void test01();
     int testRtsp();
+    int testCamera();
 private:
 
 };

@@ -3,6 +3,7 @@
 #include "Test.h"
 extern "C" {
 #include "libavformat/avformat.h"
+#include "libavdevice/avdevice.h"
 }
 
 double r2d(AVRational r)
@@ -371,3 +372,38 @@ int Test::testRtsp()
 	avformat_free_context(pFormatCtx);
 }
 
+int Test::testCamera()
+{
+	std::cout << "testCamera..." << std::endl;
+	av_register_all();
+	avdevice_register_all();
+
+	//查找输入方式
+	AVInputFormat* inputFormat = av_find_input_format("dshow");
+	AVDictionary* format_opts = nullptr;
+	av_dict_set_int(&format_opts, "rtbufsize", 3041280 * 100, 0);//解决[video input] too full or near too full 默认大小3041280
+	//av_dict_set(&format_opts, "avioflags", "direct", 0);
+	//av_dict_set(&format_opts, "video_size", "1280x720", 0);
+	//av_dict_set(&format_opts, "framerate", "30", 0);
+	//av_dict_set(&format_opts, "vcodec", "mjpeg", 0);
+
+	AVFormatContext* pFormatCtx = avformat_alloc_context();
+	const char* psDevName = "video=USB Camera";
+
+	int ret = avformat_open_input(&pFormatCtx, psDevName, inputFormat, &format_opts);
+	if (ret < 0)
+	{
+		std::cout << "AVFormat Open Input Error!" << std::endl;
+		return -1;
+	}
+
+
+	// Read packets of a media file to get stream information
+	ret = avformat_find_stream_info(pFormatCtx, nullptr);
+	if (ret < 0) {
+		fprintf(stderr, "fail to get stream information: %d\n", ret);
+		return -1;
+	}
+
+
+}

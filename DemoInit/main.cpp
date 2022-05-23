@@ -9,6 +9,7 @@ extern "C" {
 #pragma comment(lib,"avcodec.lib")
 #pragma comment(lib,"avformat.lib")
 #pragma comment(lib,"avutil.lib")
+#pragma comment(lib, "avdevice.lib")
 //avcodec.lib
 //avdevice.lib
 //avfilter.lib
@@ -23,7 +24,8 @@ int main()
     std::cout << "Test FFmpeg" << std::endl;
     std::cout << avcodec_configuration() << std::endl;
     Test* test = new Test();
-    test->test01();
+    //test->test01();
     //test->testRtsp();
+    test->testCamera();
     getchar();
 }
