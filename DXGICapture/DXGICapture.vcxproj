@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9eb1519e-341b-4f41-9788-bebdda58a433}</ProjectGuid>
+    <ProjectGuid>{80e08ef7-965a-4e36-a38a-079ce0e7b42a}</ProjectGuid>
     <RootNamespace>DXGICapture</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

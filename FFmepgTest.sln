@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoInit", "DemoInit\DemoIn
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtspTest", "RtspTest\RtspTest.vcxproj", "{F00CF06D-46EF-4CF0-8E2C-30997629D3AE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DXGICapture", "DXGICapture\DXGICapture.vcxproj", "{80E08EF7-965A-4E36-A38A-079CE0E7B42A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{F00CF06D-46EF-4CF0-8E2C-30997629D3AE}.Release|x64.Build.0 = Release|x64
 		{F00CF06D-46EF-4CF0-8E2C-30997629D3AE}.Release|x86.ActiveCfg = Release|Win32
 		{F00CF06D-46EF-4CF0-8E2C-30997629D3AE}.Release|x86.Build.0 = Release|Win32
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Debug|x64.ActiveCfg = Debug|x64
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Debug|x64.Build.0 = Debug|x64
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Debug|x86.ActiveCfg = Debug|Win32
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Debug|x86.Build.0 = Debug|Win32
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Release|x64.ActiveCfg = Release|x64
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Release|x64.Build.0 = Release|x64
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Release|x86.ActiveCfg = Release|Win32
+		{80E08EF7-965A-4E36-A38A-079CE0E7B42A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -255,7 +255,7 @@ void saveDesktopImage(ID3D11Texture2D* data, ID3D11Device* device, ID3D11DeviceC
 
 int main()
 {
-    
+
     ID3D11Device* device = nullptr;
     ID3D11DeviceContext* deviceContext = nullptr;
     initDXGIResources(&device, &deviceContext);
