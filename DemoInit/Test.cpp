@@ -18,6 +18,32 @@ void xSleep(int ms)
 	std::chrono::milliseconds du(ms);
 	std::this_thread::sleep_for(du);
 }
+
+void saveFrame2Ppm(AVFrame* pFrame, int width, int height, int iFrame) {
+
+	FILE* pFile;		//文件指针
+	char szFilename[32];//文件名（字符串）
+	int y;				//
+
+	sprintf_s(szFilename, "rtspToPpm%04d.ppm", iFrame);	//生成文件名
+	//pFile = fopen(szFilename, "wb");			//打开文件，只写入
+	fopen_s(&pFile, szFilename, "wb");
+	if (pFile == NULL) {
+		return;
+	}
+
+	//getch();
+
+	fprintf(pFile, "P6\n%d %d\n255\n", width, height);//在文档中加入，必须加入，不然PPM文件无法读取
+
+	for (y = 0; y < height; y++) {
+		fwrite(pFrame->data[0] + y * pFrame->linesize[0], 1, width * 3, pFile);
+	}
+
+	fclose(pFile);
+
+}
+
 /**
 * 将AVFrame(YUV420格式)保存为JPEG格式的图片
 *
@@ -326,14 +352,33 @@ int Test::testRtsp()
 		return -1;
 	}
 	//输出视频信息
-	printf("视频的pix_fmt：%d\n", pCodecCtx->pix_fmt);
+	printf("视频的pix_fmt：%d\n", pCodecCtx->pix_fmt);//AV_PIX_FMT_YUV420P
 	printf("视频的宽高：%d,%d\n", pCodecCtx->width, pCodecCtx->height);
 	printf("视频解码器的名称：%s\n", pCodec->name);
 
 
 	AVPacket* packet = av_packet_alloc();// (AVPacket*)av_malloc(sizeof(AVPacket));
 	AVFrame* pFrame = av_frame_alloc();
-	int frameFinished;
+
+	AVFrame* pFrameRGB = av_frame_alloc();
+	//分配视频帧需要内存 (存放原始数据用)
+	int numBytes;		//需要的内存大小
+	uint8_t* buffer = NULL;
+	//获取需要的内存大小
+	/*
+	1. av_image_fill_arrays 函数来关联 frame 和我们刚才分配的内存
+	2. av_malloc 是一个 FFmpeg 的 malloc，
+	主要是对 malloc 做了一些封装来保证地址对齐之类的事情，
+	它会保证你的代码不发生内存泄漏、多次释放或其他 malloc 问题
+	*/
+	numBytes = av_image_get_buffer_size(AV_PIX_FMT_RGB24, pCodecCtx->width, pCodecCtx->height, 1);//获取需要的内存大小
+	buffer = (uint8_t*)av_malloc(numBytes * sizeof(uint8_t));
+	//关联frame和刚才分配的内容
+	av_image_fill_arrays(pFrameRGB->data, pFrameRGB->linesize, buffer, AV_PIX_FMT_RGB24, pCodecCtx->width, pCodecCtx->height, 1);
+
+	SwsContext* sws_ctx = NULL;
+	sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_RGB24, SWS_BILINEAR, NULL, NULL, NULL);
+
 	while (1) {
 		ret = av_read_frame(pFormatCtx, packet);
 		if (ret < 0) {
@@ -364,6 +409,10 @@ int Test::testRtsp()
 			}
 			else {
 				saveFrame2JPEG(pFrame, pCodecCtx->width, pCodecCtx->height, 0);
+
+				sws_scale(sws_ctx, (uint8_t const* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
+				saveFrame2Ppm(pFrameRGB, pCodecCtx->width, pCodecCtx->height, 0);
+
 				break;
 			}
 			//break;
