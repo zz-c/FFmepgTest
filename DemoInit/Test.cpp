@@ -4,6 +4,8 @@
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libavdevice/avdevice.h"
+#include "libswscale/swscale.h"
+#include "libavutil/imgutils.h" 
 }
 
 double r2d(AVRational r)
@@ -440,13 +442,23 @@ int Test::testCamera()
 		return -1;
 	}
 	//输出视频信息
-	printf("视频的pix_fmt：%d\n", pCodecCtx->pix_fmt);
+	printf("视频的pix_fmt：%d\n", pCodecCtx->pix_fmt);//AV_PIX_FMT_YUYV422
 	printf("视频的宽高：%d,%d\n", pCodecCtx->width, pCodecCtx->height);
 	printf("视频解码器的名称：%s\n", pCodec->name);
 
 	AVPacket* packet = av_packet_alloc();// (AVPacket*)av_malloc(sizeof(AVPacket));
 	AVFrame* pFrame = av_frame_alloc();
-	int frameFinished;
+
+	//AVFrame* pFrameRGB = av_frame_alloc();
+	//int numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUVJ420P, pCodecCtx->width, pCodecCtx->height, 1);//获取需要的内存大小
+	//uint8_t* buffer = (uint8_t*)av_malloc(numBytes * sizeof(uint8_t));
+	//av_image_fill_arrays(pFrameRGB->data, pFrameRGB->linesize, buffer, AV_PIX_FMT_RGB24, pCodecCtx->width, pCodecCtx->height, 1);
+
+	//AVFrame* swsframe = av_frame_alloc();
+	//av_image_alloc(swsframe->data,swsframe->linesize,pCodecCtx->width,pCodecCtx->height,AV_PIX_FMT_YUV420P,1);
+	
+	//SwsContext* sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+
 	while (1) {
 		ret = av_read_frame(pFormatCtx, packet);
 		if (ret < 0) {
@@ -467,7 +479,8 @@ int Test::testCamera()
 			}
 			else {
 				fprintf(stderr, "avcodec_receive_frame success !\n");
-				//saveFrame2JPEG(pFrame, pCodecCtx->width, pCodecCtx->height, 0);
+				//sws_scale(sws_ctx, (uint8_t const* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, swsframe->data, swsframe->linesize);
+				//saveFrame2JPEG(swsframe, pCodecCtx->width, pCodecCtx->height, 10);
 				break;
 			}
 			//break;
