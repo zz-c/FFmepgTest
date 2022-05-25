@@ -261,7 +261,8 @@ int Test::testRtsp()
 	//初始化网络库 （可以打开rtsp rtmp http 协议的流媒体视频）
 	avformat_network_init();
 
-	const char* url = "rtsp://admin:zz369369@192.168.1.171:554/stream1";
+	//const char* url = "rtsp://admin:zz369369@192.168.1.171:554/stream1";
+	const char* url = "rtsp://172.26.144.239";
 
 	AVFormatContext* pFormatCtx = avformat_alloc_context();
 	//参数设置

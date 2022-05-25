@@ -26,7 +26,7 @@ int main()
     std::cout << avcodec_configuration() << std::endl;
     Test* test = new Test();
     //test->test01();
-    //test->testRtsp();
-    test->testCamera();
+    test->testRtsp();
+    //test->testCamera();
     getchar();
 }
